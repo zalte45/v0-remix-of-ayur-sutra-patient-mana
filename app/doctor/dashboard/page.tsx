@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import AIChatbot from "@/components/ai-chatbot"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { getDisplayName, getUserInitials, type UserData } from "@/lib/auth-utils"
+import { ChatInterface } from "@/components/messages/chat-interface"
 
 export default function DoctorDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -538,6 +539,17 @@ export default function DoctorDashboard() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          )}
+
+          {activeTab === "messages" && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">Messages</h2>
+              <ChatInterface
+                userType="doctor"
+                currentUserId="doctor-1"
+                currentUserName={currentUser ? getDisplayName(currentUser) : "Dr. Rajesh Kumar"}
+              />
             </div>
           )}
         </div>

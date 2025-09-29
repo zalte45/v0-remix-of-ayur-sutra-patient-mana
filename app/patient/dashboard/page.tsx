@@ -15,6 +15,7 @@ import AIChatbot from "@/components/ai-chatbot"
 import Link from "next/link"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { getDisplayName, getUserInitials, type UserData } from "@/lib/auth-utils"
+import { ChatInterface } from "@/components/messages/chat-interface"
 
 export default function PatientDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -645,6 +646,17 @@ export default function PatientDashboard() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          )}
+
+          {activeTab === "messages" && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">Messages</h2>
+              <ChatInterface
+                userType="patient"
+                currentUserId="patient-1"
+                currentUserName={currentUser ? getDisplayName(currentUser) : "Priya Sharma"}
+              />
             </div>
           )}
 

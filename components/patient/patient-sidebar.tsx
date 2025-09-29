@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Leaf, Home, Calendar, User, BookOpen, Settings, LogOut } from "lucide-react"
+import { Leaf, Home, Calendar, User, BookOpen, Settings, LogOut, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import { LanguageSwitcher } from "@/components/language-switcher"
 
@@ -15,6 +15,7 @@ export function PatientSidebar({ activeTab, setActiveTab, onLogout }: PatientSid
   const menuItems = [
     { id: "overview", label: "Overview", icon: Home },
     { id: "appointments", label: "Appointments", icon: Calendar },
+    { id: "messages", label: "Messages", icon: MessageCircle },
     { id: "profile", label: "My Profile", icon: User },
     { id: "resources", label: "Resources", icon: BookOpen },
     { id: "settings", label: "Settings", icon: Settings },

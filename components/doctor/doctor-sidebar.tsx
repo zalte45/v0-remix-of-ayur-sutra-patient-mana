@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Leaf, Home, Users, Calendar, BarChart3, Settings, LogOut } from "lucide-react"
+import { Leaf, Home, Users, Calendar, BarChart3, Settings, LogOut, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import { LanguageSwitcher } from "@/components/language-switcher"
 
@@ -16,6 +16,7 @@ export function DoctorSidebar({ activeTab, setActiveTab, onLogout }: DoctorSideb
     { id: "overview", label: "Overview", icon: Home },
     { id: "patients", label: "Patients", icon: Users },
     { id: "schedule", label: "Schedule", icon: Calendar },
+    { id: "messages", label: "Messages", icon: MessageCircle },
     { id: "analysis", label: "Analysis", icon: BarChart3 },
     { id: "profile", label: "My Profile", icon: Settings },
   ]
