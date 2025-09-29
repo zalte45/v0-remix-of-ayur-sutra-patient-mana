@@ -1,11 +1,30 @@
-'use client'
+"use client"
 
-import * as React from 'react'
-import {
-  ThemeProvider as NextThemesProvider,
-  type ThemeProviderProps,
-} from 'next-themes'
+import * as React from "react"
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+interface ThemeProviderProps {
+  children: React.ReactNode
+  attribute?: string
+  defaultTheme?: string
+  enableSystem?: boolean
+  disableTransitionOnChange?: boolean
+}
+
+export function ThemeProvider({
+  children,
+  attribute = "class",
+  defaultTheme = "light",
+  enableSystem = false,
+  disableTransitionOnChange = false,
+}: ThemeProviderProps) {
+  React.useEffect(() => {
+    // Set default theme
+    if (defaultTheme === "light") {
+      document.documentElement.classList.remove("dark")
+    } else if (defaultTheme === "dark") {
+      document.documentElement.classList.add("dark")
+    }
+  }, [defaultTheme])
+
+  return <>{children}</>
 }

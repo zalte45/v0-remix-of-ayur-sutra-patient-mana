@@ -4,19 +4,34 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Leaf, Calendar, Users, BarChart3, Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import AIChatbot from "@/components/ai-chatbot"
 
 export default function HomePage() {
-  const { theme, setTheme } = useTheme()
+  const [theme, setTheme] = useState("light")
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+    const savedTheme = localStorage.getItem("theme") || "light"
+    setTheme(savedTheme)
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark")
+    }
   }, [])
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark"
+    setTheme(newTheme)
+    localStorage.setItem("theme", newTheme)
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+  }
 
   if (!mounted) return null
 
@@ -30,7 +45,7 @@ export default function HomePage() {
             <h1 className="text-2xl font-bold text-foreground">AyurSutra</h1>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+            <Button variant="ghost" size="icon" onClick={toggleTheme}>
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
             <Button variant="ghost" asChild>
