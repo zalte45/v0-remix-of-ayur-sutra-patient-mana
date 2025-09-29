@@ -11,13 +11,33 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { Leaf, Mail, Lock, User, Stethoscope } from "lucide-react"
 import Link from "next/link"
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { simulateUserLogin, extractUsernameFromEmail } from "@/lib/auth-utils"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
+  const [currentEmail, setCurrentEmail] = useState("")
+  const [showUsernamePreview, setShowUsernamePreview] = useState(false)
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>, userType: "patient" | "doctor") => {
+    const email = e.target.value
+    setCurrentEmail(email)
+
+    // Show username preview when email has @ symbol
+    setShowUsernamePreview(email.includes("@"))
+  }
 
   const handleLogin = async (e: React.FormEvent, userType: "patient" | "doctor") => {
     e.preventDefault()
     setIsLoading(true)
+
+    const formData = new FormData(e.target as HTMLFormElement)
+    const email = formData.get(`${userType}-email`) as string
+
+    const userData = simulateUserLogin(email, userType)
+
+    // Store user data in localStorage (in real app, use secure storage)
+    localStorage.setItem("currentUser", JSON.stringify(userData))
 
     // Simulate login process
     setTimeout(() => {
@@ -41,6 +61,10 @@ export default function LoginPage() {
           </Link>
           <h1 className="text-2xl font-bold text-foreground mb-2">Welcome Back</h1>
           <p className="text-muted-foreground">Sign in to your account to continue</p>
+
+          <div className="flex justify-center mt-4">
+            <LanguageSwitcher />
+          </div>
         </div>
 
         <Tabs defaultValue="patient" className="w-full">
@@ -69,12 +93,20 @@ export default function LoginPage() {
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="patient-email"
+                        name="patient-email"
                         type="email"
                         placeholder="Enter your email"
                         className="pl-10"
+                        onChange={(e) => handleEmailChange(e, "patient")}
                         required
                       />
                     </div>
+                    {showUsernamePreview && currentEmail && (
+                      <p className="text-xs text-muted-foreground">
+                        You'll be logged in as:{" "}
+                        <span className="font-medium text-foreground">{extractUsernameFromEmail(currentEmail)}</span>
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="patient-password">Password</Label>
@@ -82,6 +114,7 @@ export default function LoginPage() {
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="patient-password"
+                        name="patient-password"
                         type="password"
                         placeholder="Enter your password"
                         className="pl-10"
@@ -148,8 +181,22 @@ export default function LoginPage() {
                     <Label htmlFor="doctor-email">Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input id="doctor-email" type="email" placeholder="Enter your email" className="pl-10" required />
+                      <Input
+                        id="doctor-email"
+                        name="doctor-email"
+                        type="email"
+                        placeholder="Enter your email"
+                        className="pl-10"
+                        onChange={(e) => handleEmailChange(e, "doctor")}
+                        required
+                      />
                     </div>
+                    {showUsernamePreview && currentEmail && (
+                      <p className="text-xs text-muted-foreground">
+                        You'll be logged in as:{" "}
+                        <span className="font-medium text-foreground">{extractUsernameFromEmail(currentEmail)}</span>
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="doctor-password">Password</Label>
@@ -157,6 +204,7 @@ export default function LoginPage() {
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="doctor-password"
+                        name="doctor-password"
                         type="password"
                         placeholder="Enter your password"
                         className="pl-10"
@@ -170,6 +218,7 @@ export default function LoginPage() {
                       <Stethoscope className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="doctor-license"
+                        name="doctor-license"
                         type="text"
                         placeholder="Enter your license number"
                         className="pl-10"

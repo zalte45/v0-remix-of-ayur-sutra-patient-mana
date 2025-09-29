@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -12,15 +12,25 @@ import { ScheduleCalendar } from "@/components/doctor/schedule-calendar"
 import { PracticeStats } from "@/components/doctor/practice-stats"
 import { Input } from "@/components/ui/input"
 import AIChatbot from "@/components/ai-chatbot"
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { getDisplayName, getUserInitials, type UserData } from "@/lib/auth-utils"
 
 export default function DoctorDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
+  const [currentUser, setCurrentUser] = useState<UserData | null>(null)
 
-  // Mock doctor data
+  useEffect(() => {
+    const userData = localStorage.getItem("currentUser")
+    if (userData) {
+      setCurrentUser(JSON.parse(userData))
+    }
+  }, [])
+
+  // Mock doctor data - in real app, this would come from API
   const doctorData = {
-    name: "Dr. Rajesh Kumar",
+    name: currentUser ? getDisplayName(currentUser) : "Dr. Rajesh Kumar",
     specialization: "Panchakarma Specialist",
-    email: "dr.rajesh@ayursutra.com",
+    email: currentUser?.email || "dr.rajesh@ayursutra.com",
     phone: "+91 98765 43210",
     license: "AYU-2019-MH-1234",
     experience: "15 years",
@@ -118,7 +128,7 @@ export default function DoctorDashboard() {
   ]
 
   const handleLogout = () => {
-    // In a real app, this would clear auth tokens and redirect
+    localStorage.removeItem("currentUser")
     alert("Logout functionality would redirect to login page")
   }
 
@@ -131,10 +141,13 @@ export default function DoctorDashboard() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Good morning, Dr. Kumar!</h1>
+              <h1 className="text-3xl font-bold text-foreground">
+                Good morning, {currentUser ? getDisplayName(currentUser).split(" ")[0] : "Dr. Kumar"}!
+              </h1>
               <p className="text-muted-foreground">You have {todaySchedule.length} appointments today</p>
             </div>
             <div className="flex items-center gap-4">
+              <LanguageSwitcher />
               <Button
                 variant="outline"
                 size="sm"
@@ -149,7 +162,7 @@ export default function DoctorDashboard() {
               </Button>
               <Avatar>
                 <AvatarImage src="/placeholder.svg?height=40&width=40" />
-                <AvatarFallback>RK</AvatarFallback>
+                <AvatarFallback>{currentUser ? getUserInitials(currentUser) : "RK"}</AvatarFallback>
               </Avatar>
             </div>
           </div>

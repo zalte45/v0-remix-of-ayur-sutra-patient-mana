@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Leaf, Home, Users, Calendar, BarChart3, Settings, LogOut } from "lucide-react"
 import Link from "next/link"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 interface DoctorSidebarProps {
   activeTab: string
@@ -60,6 +61,9 @@ export function DoctorSidebar({ activeTab, setActiveTab, onLogout }: DoctorSideb
 
       {/* Bottom Actions */}
       <div className="p-4 border-t border-border space-y-2">
+        <div className="mb-2">
+          <LanguageSwitcher variant="ghost" showText={false} />
+        </div>
         <Button
           variant="ghost"
           className="w-full justify-start text-destructive hover:text-destructive"

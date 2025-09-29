@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -13,9 +13,12 @@ import { UpcomingSessions } from "@/components/patient/upcoming-sessions"
 import { HealthMetrics } from "@/components/patient/health-metrics"
 import AIChatbot from "@/components/ai-chatbot"
 import Link from "next/link"
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { getDisplayName, getUserInitials, type UserData } from "@/lib/auth-utils"
 
 export default function PatientDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
+  const [currentUser, setCurrentUser] = useState<UserData | null>(null)
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -44,10 +47,17 @@ export default function PatientDashboard() {
   ])
   const [showNotifications, setShowNotifications] = useState(false)
 
-  // Mock patient data
+  useEffect(() => {
+    const userData = localStorage.getItem("currentUser")
+    if (userData) {
+      setCurrentUser(JSON.parse(userData))
+    }
+  }, [])
+
+  // Mock patient data - in real app, this would come from API
   const patientData = {
-    name: "Priya Sharma",
-    email: "priya.sharma@email.com",
+    name: currentUser ? getDisplayName(currentUser) : "Priya Sharma",
+    email: currentUser?.email || "priya.sharma@email.com",
     phone: "+91 98765 43210",
     age: 34,
     gender: "Female",
@@ -176,6 +186,7 @@ export default function PatientDashboard() {
   }
 
   const handleLogout = () => {
+    localStorage.removeItem("currentUser")
     // In a real app, this would clear auth tokens and redirect
     alert("Logout functionality would redirect to login page")
   }
@@ -189,10 +200,14 @@ export default function PatientDashboard() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Welcome back, {patientData.name.split(" ")[0]}!</h1>
+              <h1 className="text-3xl font-bold text-foreground">
+                Welcome back, {currentUser ? getDisplayName(currentUser).split(" ")[0] : patientData.name.split(" ")[0]}
+                !
+              </h1>
               <p className="text-muted-foreground">Track your wellness journey and manage your therapy sessions</p>
             </div>
             <div className="flex items-center gap-4">
+              <LanguageSwitcher />
               <div className="relative">
                 <Button
                   variant="outline"
@@ -234,7 +249,7 @@ export default function PatientDashboard() {
               </div>
               <Avatar>
                 <AvatarImage src="/placeholder.svg?height=40&width=40" />
-                <AvatarFallback>PS</AvatarFallback>
+                <AvatarFallback>{currentUser ? getUserInitials(currentUser) : "PS"}</AvatarFallback>
               </Avatar>
             </div>
           </div>
