@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated to Ayurveda-inspired color palette */
+  --background: #f5f5dc; /* Neutral beige for background */
+  --foreground: #4a7c2e; /* Primary green for main text */
+  --card: #ffffff; /* White for cards */
+  --card-foreground: #4a7c2e; /* Green text on cards */
+  --popover: #c2d6b9; /* Soft cream for popovers */
+  --popover-foreground: #4a7c2e; /* Dark green text on popovers */
+  --primary: #4a7c2e; /* Green for call-to-action buttons */
+  --primary-foreground: #ffffff; /* White text on primary buttons */
+  --secondary: #8b5a2b; /* Earthy brown for secondary actions */
+  --secondary-foreground: #ffffff; /* White text on secondary buttons */
+  --muted: #bdbdbd; /* Muted gray for less important text */
+  --muted-foreground: #4a7c2e; /* Green text on muted backgrounds */
+  --accent: #c2d6b9; /* Cream for accents */
+  --accent-foreground: #4a7c2e; /* Dark green text on accents */
+  --destructive: #ff6347; /* Red for errors */
+  --destructive-foreground: #ffffff; /* White text on destructive actions */
+  --border: #8b5a2b; /* Brown for borders */
+  --input: #ffffff; /* White for input fields */
+  --ring: #c2d6b9; /* Soft cream for focus rings */
+  --chart-1: #4a7c2e; /* Green for charts */
+  --chart-2: #8b5a2b; /* Brown for alternate chart color */
+  --chart-3: #c2d6b9; /* Cream for additional chart color */
+  --chart-4: #f5f5dc; /* Beige for chart backgrounds */
+  --chart-5: #bdbdbd; /* Gray for neutral chart elements */
+  --radius: 0.5rem; /* Rounded corners for soft feel */
+  --sidebar: #f5f5dc; /* Neutral sidebar background */
+  --sidebar-foreground: #4a7c2e; /* Green text in sidebar */
+  --sidebar-primary: #8b5a2b; /* Brown for primary sidebar actions */
+  --sidebar-primary-foreground: #ffffff; /* White text on primary sidebar actions */
+  --sidebar-accent: #c2d6b9; /* Cream for sidebar accents */
+  --sidebar-accent-foreground: #4a7c2e; /* Dark green text on sidebar accents */
+  --sidebar-border: #8b5a2b; /* Brown for sidebar borders */
+  --sidebar-ring: #c2d6b9; /* Cream for sidebar focus rings */
+}
+
+.dark {
+  /* Updated dark mode colors to maintain Ayurveda theme */
+  --background: #2c3e1f; /* Dark green background */
+  --foreground: #f5f5dc; /* Beige text */
+  --card: #3a4f2a; /* Darker green for cards */
+  --card-foreground: #f5f5dc; /* Beige text on cards */
+  --popover: #4a7c2e; /* Primary green for popovers */
+  --popover-foreground: #f5f5dc; /* Beige text on popovers */
+  --primary: #c2d6b9; /* Light cream for primary buttons */
+  --primary-foreground: #2c3e1f; /* Dark green text on primary buttons */
+  --secondary: #8b5a2b; /* Brown for secondary actions */
+  --secondary-foreground: #f5f5dc; /* Beige text on secondary buttons */
+  --muted: #5a6b4a; /* Muted green for less important elements */
+  --muted-foreground: #c2d6b9; /* Light cream text on muted backgrounds */
+  --accent: #8b5a2b; /* Brown for accents */
+  --accent-foreground: #f5f5dc; /* Beige text on accents */
+  --destructive: #ff6347; /* Red for errors */
+  --destructive-foreground: #ffffff; /* White text on destructive actions */
+  --border: #5a6b4a; /* Muted green for borders */
+  --input: #3a4f2a; /* Dark green for input fields */
+  --ring: #c2d6b9; /* Light cream for focus rings */
+  --chart-1: #c2d6b9; /* Light cream for charts */
+  --chart-2: #8b5a2b; /* Brown for alternate chart color */
+  --chart-3: #4a7c2e; /* Green for additional chart color */
+  --chart-4: #3a4f2a; /* Dark green for chart backgrounds */
+  --chart-5: #5a6b4a; /* Muted green for neutral chart elements */
+  --sidebar: #2c3e1f; /* Dark green sidebar background */
+  --sidebar-foreground: #f5f5dc; /* Beige text in sidebar */
+  --sidebar-primary: #c2d6b9; /* Light cream for primary sidebar actions */
+  --sidebar-primary-foreground: #2c3e1f; /* Dark green text on primary sidebar actions */
+  --sidebar-accent: #8b5a2b; /* Brown for sidebar accents */
+  --sidebar-accent-foreground: #f5f5dc; /* Beige text on sidebar accents */
+  --sidebar-border: #5a6b4a; /* Muted green for sidebar borders */
+  --sidebar-ring: #c2d6b9; /* Light cream for sidebar focus rings */
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
